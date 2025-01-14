@@ -8,12 +8,14 @@ function App() {
   const [projectState, setProjectState] = useState({
     selectedProjectId: undefined,
     projects: [], //array stores the project
-    tasks : [], // array stores the tasks
+    tasks: [], // array stores the tasks
   });
 
   //function to add the tasks
-  function handleAddTask(text){ //takes the input using refs 
-    setProjectState((prevState) => { //passsing the previous values 
+  function handleAddTask(text) {
+    //takes the input using refs
+    setProjectState((prevState) => {
+      //passsing the previous values
       const taskId = Math.random();
       const newTask = {
         text: text,
@@ -23,18 +25,19 @@ function App() {
 
       return {
         ...prevState, // destsructuring the previous project details to same object
-        tasks : [newTask, ...prevState.tasks ], //assigning the new tasks along with the old tasks using destructuring the array
+        tasks: [newTask, ...prevState.tasks], //assigning the new tasks along with the old tasks using destructuring the array
       };
     });
   }
 
   //delete the Task
-  function handleDeleteTask(id){ // Passing the id to delete that particular task
+  function handleDeleteTask(id) {
+    // Passing the id to delete that particular task
     setProjectState((prevState) => {
       return {
         ...prevState,
         tasks: prevState.tasks.filter(
-          (task) => task.id !== id
+          (task) => task.id !== id //filter method removes the data if it return false
         ),
       };
     });
@@ -50,13 +53,14 @@ function App() {
     });
   }
 
+  //delete project
   function handleDeleteProject() {
     setProjectState((prevState) => {
       return {
         ...prevState,
         selectedProjectId: undefined,
         projects: prevState.projects.filter(
-          (project) => project.id !== prevState.selectedProjectId
+          (project) => project.id !== prevState.selectedProjectId //removes the data if it returns false i.e it only keeps the data which satisfies the condition
         ),
       };
     });
@@ -70,7 +74,7 @@ function App() {
     });
   }
 
-  //handle cancel button we just change the state here 
+  //handle cancel button we just change the state here
   function handleCancelProject() {
     setProjectState((prevState) => {
       return {
@@ -79,6 +83,7 @@ function App() {
       };
     });
   }
+
   function handleAddProject(projectData) {
     setProjectState((prevState) => {
       const newProject = {
@@ -99,10 +104,17 @@ function App() {
   );
 
   let content = (
-    <SelectedProject project={selectedProject} onDelete={handleDeleteProject} onAddTasks={handleAddTask} onDeleteTasks={handleDeleteTask} tasks={projectState.tasks}/>
+    <SelectedProject
+      project={selectedProject} // pass the selected project details to display the project
+      onDelete={handleDeleteProject} // passing the prop to delete ths project
+      onAddTasks={handleAddTask} //prop drilling to add task
+      onDeleteTasks={handleDeleteTask} // prop drilling to the task component to use onClick method
+      tasks={projectState.tasks} //prop drilling to task component to view the tasks
+    />
   );
 
   if (projectState.selectedProjectId === null) {
+    // view the content component based on the condition - if the project is added or not
     content = (
       <NewProject onAdd={handleAddProject} onCancel={handleCancelProject} />
     );
@@ -113,9 +125,9 @@ function App() {
     <main className="h-screen my-8 flex gap-8">
       <ProjectSidebar
         onStartAddProject={handleStartProject}
-        projects={projectState.projects}
+        projects={projectState.projects} // passing projects to display in the sidebar
         onSelectProject={handleSelectProject}
-        slectedProjectId = {projectState.slectedProjectId}
+        slectedProjectId={projectState.selectedProjectId} // passing the project id which help to view the exact project
       />
       {content}
     </main>
