@@ -1,8 +1,10 @@
+
+//This is the first component of the project 
 import Button from "./Button.jsx";
 export default function ProjectSidebar({
-  onStartAddProject,
-  projects,
-  onSelectProject,
+  onStartAddProject, //this is switch the props to add the project 
+  projects, //object containing project details
+  onSelectProject, // to view the project details
   selectedProjectId,
 }) {
   return (
@@ -11,7 +13,7 @@ export default function ProjectSidebar({
         Your Projects
       </h2>
       <div>
-        <Button onClick={onStartAddProject}>+ Add Project</Button>
+        <Button onClick={onStartAddProject}>+ Add Project</Button>  
       </div>
       <ul>
         {projects.map((project) => {
@@ -25,10 +27,11 @@ export default function ProjectSidebar({
           }
 
           return (
+            //listing the projects on sidebar 
             <li key={project.id}>
               <button
-                className={cssClasses}
-                onClick={() => onSelectProject(project.id)}
+                className={cssClasses} //this button is used to view the project
+                onClick={() => onSelectProject(project.id)} // we pass the project id to get the exact project we need
               >
                 {project.title}
               </button>

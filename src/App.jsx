@@ -7,12 +7,13 @@ import { preconnect } from "react-dom";
 function App() {
   const [projectState, setProjectState] = useState({
     selectedProjectId: undefined,
-    projects: [],
-    tasks : [],
+    projects: [], //array stores the project
+    tasks : [], // array stores the tasks
   });
 
-  function handleAddTask(text){
-    setProjectState((prevState) => {
+  //function to add the tasks
+  function handleAddTask(text){ //takes the input using refs 
+    setProjectState((prevState) => { //passsing the previous values 
       const taskId = Math.random();
       const newTask = {
         text: text,
@@ -21,13 +22,14 @@ function App() {
       };
 
       return {
-        ...prevState,
-        tasks : [newTask, ...prevState.tasks ],
+        ...prevState, // destsructuring the previous project details to same object
+        tasks : [newTask, ...prevState.tasks ], //assigning the new tasks along with the old tasks using destructuring the array
       };
     });
   }
 
-  function handleDeleteTask(id){
+  //delete the Task
+  function handleDeleteTask(id){ // Passing the id to delete that particular task
     setProjectState((prevState) => {
       return {
         ...prevState,
@@ -38,6 +40,7 @@ function App() {
     });
   }
 
+  //handling the select project by assigning the project id
   function handleSelectProject(id) {
     setProjectState((prevState) => {
       return {
@@ -67,6 +70,7 @@ function App() {
     });
   }
 
+  //handle cancel button we just change the state here 
   function handleCancelProject() {
     setProjectState((prevState) => {
       return {
